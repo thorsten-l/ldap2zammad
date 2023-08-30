@@ -1,0 +1,79 @@
+#
+# Copyright 2023 Thorsten Ludewig (t.ludewig@gmail.com).
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+spring:
+
+  profiles:
+    active: default
+
+  main:
+    banner-mode: off
+    web-application-type: none
+
+  shell:
+    command:
+      version:
+        enabled: true
+#    noninteractive:
+#      primary-command: sync
+
+  output:
+    ansi:
+      enabled: ALWAYS
+
+logging:
+  pattern:
+    console: "%date{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger:%line - %msg %n"
+  level:
+    l9g: INFO
+    root: INFO
+    org.jline: OFF
+    reactor.netty.channel: OFF
+    io.netty.util.internal: OFF
+
+# DEVELOPMENT
+zammad:
+  base-url: https://zammad.example.de 
+  token: <your token>
+  trust-all-certificates: false
+
+ldap:
+  host:
+    name: ldap.example.de
+    port: 3389
+    ssl: false
+  bind:
+    dn: cn=Directory Manager
+    password: <ldap dir manager pwd>
+  base-dn: dc=sonia,dc=de
+  scope: sub
+  filter: (&(modifyTimestamp>={0})(objectClass=person))
+  user:
+    id: uid
+    attributes: uid, facsimileTelephoneNumber, telephoneNumber, cn, sn, givenname, employeetype, mail, l, o, ou, academicTitle, title, campus, department, institute
+
+mail:
+  enabled: true
+  host: 
+    name: smtp.example.de
+    port: 587
+    startTLS: true
+  credentials:
+    uid: "<user>"
+    password: "<mail password>"
+  subject: "%date{yyyy-MM-dd HH:mm:ss} - %m"
+  from: "Ldap2Zammad <user@example.de>"
+  receipients: admin@example.de
