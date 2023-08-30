@@ -86,7 +86,7 @@ public class LogbackConfig
 
   @Bean
   @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-  public LogbackConfig getLogbackConfig()
+  public LogbackConfig logbackConfigBean()
   {
     LOGGER.debug("getLogbackConfig");
     return this;

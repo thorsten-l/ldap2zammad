@@ -53,7 +53,7 @@ public class LdapHandler
   private Config config;
 
   @Bean
-  public LdapHandler getLdapHandler()
+  public LdapHandler ldapHandlerBean()
   {
     LOGGER.debug("getLdapHandler");
     return this;

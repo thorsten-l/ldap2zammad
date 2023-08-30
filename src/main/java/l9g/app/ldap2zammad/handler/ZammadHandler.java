@@ -48,7 +48,7 @@ public class ZammadHandler
   private ZammadClient zammadClient;
 
   @Bean
-  public ZammadHandler getZammadHandler()
+  public ZammadHandler zammadHandlerBean()
   {
     LOGGER.debug("getZammadHandler");
     return this;

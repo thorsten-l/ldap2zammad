@@ -121,7 +121,7 @@ public class Config
   private boolean debug;
 
   @Bean
-  public Config getConfig()
+  public Config configBean()
   {
     LOGGER.debug("getConfig");
     return this;
