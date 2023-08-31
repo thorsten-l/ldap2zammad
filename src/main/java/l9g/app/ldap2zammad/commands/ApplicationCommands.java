@@ -176,9 +176,8 @@ public class ApplicationCommands
     if (!dryRun)
     {
       timestampUtil.writeCurrentTimestamp();
-
     }
-    
+
     logbackConfig.getRootLogger().setLevel(Level.INFO);
     logbackConfig.getL9gLogger().setLevel(Level.INFO);
   }

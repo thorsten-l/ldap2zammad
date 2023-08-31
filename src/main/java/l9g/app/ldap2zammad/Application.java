@@ -17,8 +17,6 @@ package l9g.app.ldap2zammad;
 
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -36,8 +34,6 @@ public class Application
     System.setProperty("spring.config.location", "file:" + CONFIG_PATH);
     System.setProperty("polyglot.engine.WarnInterpreterOnly", "false");
   }
-
-  final static Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
   @Bean
   public PromptProvider createPromptProvider()

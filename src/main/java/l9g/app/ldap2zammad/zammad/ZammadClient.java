@@ -50,6 +50,27 @@ public interface ZammadClient
   @DeleteExchange("/api/v1/users/{id}")
   public HttpResponse user(@PathVariable(name = "id") int id);
 
+  /*
+  Query Parameters
+  
+  - Pagination
+    - per_page
+    - page
+  
+  - Sorting Parameter
+    - sort_by = {row name}
+  
+  - Order Direction
+    - order_by={directtion}
+  
+  - Resultset max size
+    - limit
+   */
+  @GetExchange("/api/v1/users/search?query={query}")
+  public List<ZammadUser> usersSearch(
+    @PathVariable("query") String query
+  );
+
   @GetExchange("/api/v1/users/search?query={property}:{search}")
   public List<ZammadUser> usersSearch(
     @PathVariable("property") String property,

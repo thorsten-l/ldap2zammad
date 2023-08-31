@@ -88,7 +88,6 @@ public class Config
   @Value("${ldap.user.attributes}")
   private String[] ldapUserAttributeNames;
 
-
   @Value("${mail.enabled}")
   private boolean mailEnabled;
 
@@ -112,7 +111,7 @@ public class Config
 
   @Value("${mail.from}")
   private String mailFrom;
-  
+
   @Value("${mail.receipients}")
   private String[] mailReceipients;
 
