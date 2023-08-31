@@ -47,9 +47,6 @@ public interface ZammadClient
   @GetExchange("/api/v1/users")
   public List<ZammadUser> users();
 
-  @DeleteExchange("/api/v1/users/{id}")
-  public HttpResponse user(@PathVariable(name = "id") int id);
-
   /*
   Query Parameters
   
