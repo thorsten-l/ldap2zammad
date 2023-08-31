@@ -15,7 +15,6 @@
  */
 package l9g.app.ldap2zammad.crypto;
 
-import jakarta.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -42,48 +41,43 @@ public class AppSecretKey
   private final static String SECRET_FILE = "."
     + File.separator + "secret.bin";
 
-  @PostConstruct
-  public synchronized void initialize()
+  public AppSecretKey()
   {
-    if (!initialized)
+    try
     {
-      try
+      File secretFile = new File(SECRET_FILE);
+
+      if (secretFile.exists())
       {
-        File secretFile = new File(SECRET_FILE);
-
-        if (secretFile.exists())
+        secretKey = new byte[48];
+        LOGGER.debug("Loading secret file");
+        try (FileInputStream input = new FileInputStream(secretFile))
         {
-          secretKey = new byte[48];
-          LOGGER.debug("Loading secret file");
-          try (FileInputStream input = new FileInputStream(secretFile))
-          {
-            input.read(secretKey);
-          }
-        }
-        else
-        {
-          LOGGER.info("Writing secret file");
-
-          try (FileOutputStream output = new FileOutputStream(secretFile))
-          {
-            AES256 aes256 = new AES256();
-            secretKey = aes256.getSecret();
-            output.write(secretKey);
-          }
-
-          // file permissions - r-- --- ---
-          secretFile.setExecutable(false, false);
-          secretFile.setWritable(false, false);
-          secretFile.setReadable(false, false);
-          secretFile.setReadable(true, true);
+          input.read(secretKey);
         }
       }
-      catch (IOException | NoSuchAlgorithmException e)
+      else
       {
-        LOGGER.error("ERROR: secret file ", e);
-        System.exit(-1);
+        LOGGER.info("Writing secret file");
+
+        try (FileOutputStream output = new FileOutputStream(secretFile))
+        {
+          AES256 aes256 = new AES256();
+          secretKey = aes256.getSecret();
+          output.write(secretKey);
+        }
+
+        // file permissions - r-- --- ---
+        secretFile.setExecutable(false, false);
+        secretFile.setWritable(false, false);
+        secretFile.setReadable(false, false);
+        secretFile.setReadable(true, true);
       }
-      initialized = true;
+    }
+    catch (IOException | NoSuchAlgorithmException e)
+    {
+      LOGGER.error("ERROR: secret file ", e);
+      System.exit(-1);
     }
   }
 
@@ -94,8 +88,6 @@ public class AppSecretKey
     LOGGER.debug("appSecretKeyBean");
     return this;
   }
-
-  private boolean initialized;
 
   @Getter
   private byte[] secretKey = null;

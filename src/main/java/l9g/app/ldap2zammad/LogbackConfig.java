@@ -20,7 +20,6 @@ import ch.qos.logback.classic.boolex.OnMarkerEvaluator;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.net.SMTPAppender;
 import ch.qos.logback.core.spi.CyclicBufferTracker;
-import jakarta.annotation.PostConstruct;
 import l9g.app.ldap2zammad.handler.CryptoHandler;
 import lombok.Getter;
 import org.slf4j.Logger;
@@ -49,42 +48,33 @@ public class LogbackConfig
     = "%date{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger:%line - %msg %n";
 
   @Autowired
-  private Config config;
-
-  @Autowired
-  private CryptoHandler cryptoHandler;
-
-  private boolean initialized;
-
-  @PostConstruct
-  public synchronized void initialize()
+  public LogbackConfig(Config config, CryptoHandler cryptoHandler)
   {
-    if (!initialized)
+    this.config = config;
+    this.cryptoHandler = cryptoHandler;
+
+    LOGGER.debug("initialize - post construct - mail is enabled = {}",
+      config.isMailEnabled());
+    loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+    rootLogger = loggerContext.getLogger(
+      ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
+    l9gLogger = loggerContext.getLogger("l9g");
+
+    notificationMarker = MarkerFactory.getMarker(SMTP_NOTIFICATION);
+
+    if (config.isMailEnabled())
     {
-      LOGGER.debug("initialize - post construct - mail is enabled = {}",
-        config.isMailEnabled());
-      loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
-      rootLogger = loggerContext.getLogger(
-        ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
-      l9gLogger = loggerContext.getLogger("l9g");
-      initialized = true;
-
-      notificationMarker = MarkerFactory.getMarker(SMTP_NOTIFICATION);
-
-      if (config.isMailEnabled())
-      {
-        PatternLayoutEncoder layoutEncoder = new PatternLayoutEncoder();
-        layoutEncoder.setContext(loggerContext);
-        layoutEncoder.setPattern(PATTERN);
-        layoutEncoder.start();
-        //
-        smtpAppender = buildSmtpAppender("SMTP", layoutEncoder, null);
-        smtpMarkerAppender
-          = buildSmtpAppender(SMTP_NOTIFICATION, layoutEncoder,
-            SMTP_NOTIFICATION);
-        rootLogger.addAppender(smtpAppender);
-        rootLogger.addAppender(smtpMarkerAppender);
-      }
+      PatternLayoutEncoder layoutEncoder = new PatternLayoutEncoder();
+      layoutEncoder.setContext(loggerContext);
+      layoutEncoder.setPattern(PATTERN);
+      layoutEncoder.start();
+      //
+      smtpAppender = buildSmtpAppender("SMTP", layoutEncoder, null);
+      smtpMarkerAppender
+        = buildSmtpAppender(SMTP_NOTIFICATION, layoutEncoder,
+          SMTP_NOTIFICATION);
+      rootLogger.addAppender(smtpAppender);
+      rootLogger.addAppender(smtpMarkerAppender);
     }
   }
 
@@ -136,18 +126,22 @@ public class LogbackConfig
     return appender;
   }
 
-  private LoggerContext loggerContext;
-
-  @Getter
-  private ch.qos.logback.classic.Logger rootLogger;
-
-  @Getter
-  private ch.qos.logback.classic.Logger l9gLogger;
-
   private SMTPAppender smtpAppender;
 
   private SMTPAppender smtpMarkerAppender;
 
+  private final Config config;
+
+  private final CryptoHandler cryptoHandler;
+
+  private final LoggerContext loggerContext;
+
   @Getter
-  private Marker notificationMarker;
+  private final ch.qos.logback.classic.Logger rootLogger;
+
+  @Getter
+  private final ch.qos.logback.classic.Logger l9gLogger;
+
+  @Getter
+  private final Marker notificationMarker;
 }

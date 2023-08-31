@@ -15,26 +15,9 @@
  */
 package l9g.app.ldap2zammad.handler;
 
-import com.unboundid.asn1.ASN1GeneralizedTime;
-import com.unboundid.asn1.ASN1OctetString;
-import com.unboundid.ldap.sdk.Entry;
-import com.unboundid.ldap.sdk.LDAPConnection;
-import com.unboundid.ldap.sdk.LDAPConnectionOptions;
-import com.unboundid.ldap.sdk.SearchRequest;
-import com.unboundid.ldap.sdk.SearchResult;
-import com.unboundid.ldap.sdk.SearchScope;
-import com.unboundid.ldap.sdk.controls.SimplePagedResultsControl;
-import com.unboundid.util.ssl.SSLUtil;
-import com.unboundid.util.ssl.TrustAllTrustManager;
 import jakarta.annotation.PostConstruct;
-import java.security.GeneralSecurityException;
-import java.text.MessageFormat;
-import java.util.HashMap;
-import javax.net.ssl.SSLSocketFactory;
-import l9g.app.ldap2zammad.Config;
 import l9g.app.ldap2zammad.crypto.AES256;
 import l9g.app.ldap2zammad.crypto.AppSecretKey;
-import lombok.Getter;
 import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,23 +38,14 @@ public class CryptoHandler
   final static Logger LOGGER = LoggerFactory.getLogger(CryptoHandler.class);
 
   public final static String AES256_PREFIX = "{AES256}";
-  
-  @Autowired
-  private AppSecretKey appSecretKey;
 
   private AES256 aes256;
 
-  private boolean initialized;
-
-  @PostConstruct
-  public synchronized void initialize()
+  @Autowired
+  public CryptoHandler(AppSecretKey appSecretKey)
   {
-    if (!initialized)
-    {
-      LOGGER.debug("initialize");
-      aes256 = new AES256(appSecretKey.getSecretKey());
-      initialized = true;
-    }
+    LOGGER.debug("CryptoHandler()");
+    aes256 = new AES256(appSecretKey.getSecretKey());
   }
 
   @Bean
@@ -86,12 +60,12 @@ public class CryptoHandler
   {
     return AES256_PREFIX + aes256.encrypt(text);
   }
-  
+
   public String decrypt(String encryptedText)
   {
     String text;
-    
-    if ( encryptedText != null && encryptedText.startsWith(AES256_PREFIX))
+
+    if (encryptedText != null && encryptedText.startsWith(AES256_PREFIX))
     {
       text = aes256.decrypt(encryptedText.substring(AES256_PREFIX.length()));
     }
@@ -99,7 +73,7 @@ public class CryptoHandler
     {
       text = encryptedText;
     }
-    
+
     return text;
   }
 }
