@@ -42,3 +42,4 @@ var/
 /ldap2zammad.js
 /application.yaml
 /application.yml
+/secret.bin

@@ -21,6 +21,7 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.net.SMTPAppender;
 import ch.qos.logback.core.spi.CyclicBufferTracker;
 import jakarta.annotation.PostConstruct;
+import l9g.app.ldap2zammad.handler.CryptoHandler;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +50,9 @@ public class LogbackConfig
 
   @Autowired
   private Config config;
+
+  @Autowired
+  private CryptoHandler cryptoHandler;
 
   private boolean initialized;
 
@@ -88,7 +92,7 @@ public class LogbackConfig
   @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
   public LogbackConfig logbackConfigBean()
   {
-    LOGGER.debug("getLogbackConfig");
+    LOGGER.debug("logbackConfigBean");
     return this;
   }
 
@@ -114,7 +118,8 @@ public class LogbackConfig
     appender.setSTARTTLS(config.isMailStartTLS());
     appender.setSubject(config.getMailSubject());
     appender.setUsername(config.getMailCredentialsUid());
-    appender.setPassword(config.getMailCredentialsPassword());
+    appender.setPassword(
+      cryptoHandler.decrypt(config.getMailCredentialsPassword()));
     appender.setLayout(layoutEncoder.getLayout());
     appender.setAsynchronousSending(false);
     appender.setCyclicBufferTracker(bufferTracker);

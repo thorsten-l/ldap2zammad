@@ -15,10 +15,6 @@
  */
 package l9g.app.ldap2zammad;
 
-import io.netty.handler.ssl.SslContextBuilder;
-import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
-import javax.net.ssl.SSLException;
-import l9g.app.ldap2zammad.zammad.ZammadClient;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -28,12 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.support.WebClientAdapter;
-import org.springframework.web.service.invoker.HttpServiceProxyFactory;
-import reactor.netty.http.client.HttpClient;
 
 /**
  *
@@ -124,35 +115,5 @@ public class Config
   {
     LOGGER.debug("getConfig");
     return this;
-  }
-
-  @Bean
-  public ZammadClient createZammadClient() throws SSLException
-  {
-    LOGGER.debug("createZammadClient");
-    var webClientBuilder = WebClient.builder();
-
-    if (zammadTrustAllCertificates)
-    {
-      var sslContext = SslContextBuilder.forClient().trustManager(
-        InsecureTrustManagerFactory.INSTANCE).build();
-
-      HttpClient httpClient = HttpClient.create().secure(t -> t.sslContext(
-        sslContext));
-
-      webClientBuilder = webClientBuilder
-        .clientConnector(new ReactorClientHttpConnector(httpClient));
-    }
-
-    WebClient webClient = webClientBuilder
-      .baseUrl(zammadBaseUrl)
-      .defaultHeader("Authorization", "Token token=" + zammadToken)
-      .build();
-
-    HttpServiceProxyFactory factory
-      = HttpServiceProxyFactory.builder(
-        WebClientAdapter.forClient(webClient)).build();
-
-    return factory.createClient(ZammadClient.class);
   }
 }

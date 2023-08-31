@@ -52,6 +52,9 @@ public class LdapHandler
   @Autowired
   private Config config;
 
+  @Autowired
+  private CryptoHandler cryptoHandler;
+
   @Bean
   public LdapHandler ldapHandlerBean()
   {
@@ -66,7 +69,8 @@ public class LdapHandler
     LOGGER.debug("port = " + config.getLdapPort());
     LOGGER.debug("ssl = " + config.isLdapSslEnabled());
     LOGGER.debug("bind dn = " + config.getLdapBindDn());
-    LOGGER.trace("bind pw = " + config.getLdapBindPassword());
+    LOGGER.trace("bind pw = " + 
+      cryptoHandler.decrypt(config.getLdapBindPassword()));
 
     LDAPConnection ldapConnection;
 
@@ -76,14 +80,14 @@ public class LdapHandler
       ldapConnection = new LDAPConnection(createSSLSocketFactory(), options,
         config.getLdapHostname(), config.getLdapPort(),
         config.getLdapBindDn(),
-        config.getLdapBindPassword());
+        cryptoHandler.decrypt(config.getLdapBindPassword()));
     }
     else
     {
       ldapConnection = new LDAPConnection(options,
         config.getLdapHostname(), config.getLdapPort(),
         config.getLdapBindDn(),
-        config.getLdapBindPassword());
+        cryptoHandler.decrypt(config.getLdapBindPassword()));
     }
     ldapConnection.setConnectionName(config.getLdapHostname());
     return ldapConnection;
