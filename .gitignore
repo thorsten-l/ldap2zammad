@@ -43,3 +43,5 @@ var/
 /application.yaml
 /application.yml
 /secret.bin
+rebel.xml
+.rebel.xml.bak
