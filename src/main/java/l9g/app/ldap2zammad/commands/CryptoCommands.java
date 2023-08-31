@@ -28,10 +28,10 @@ import org.springframework.shell.command.annotation.Option;
  *
  * @author Thorsten Ludewig (t.ludewig@gmail.com)
  */
-@Command(group = "Encryption")
-public class EncryptCommands
+@Command(group = "Crypto")
+public class CryptoCommands
 {
-  final static Logger LOGGER = LoggerFactory.getLogger(EncryptCommands.class);
+  final static Logger LOGGER = LoggerFactory.getLogger(CryptoCommands.class);
 
   @Autowired
   private CryptoHandler cryptoHandler;

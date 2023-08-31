@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Thorsten Ludewig (t.ludewig@gmail.com).
+ * Copyright 2023 Thorsten Ludewig (t.ludewig@gmail.com).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import l9g.app.ldap2zammad.LogbackConfig;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
