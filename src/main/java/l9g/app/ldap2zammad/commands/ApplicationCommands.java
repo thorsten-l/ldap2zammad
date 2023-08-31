@@ -39,7 +39,7 @@ import org.springframework.shell.command.annotation.Option;
 @Command(group = "Application")
 public class ApplicationCommands
 {
-  final static Logger LOGGER
+  private final static Logger LOGGER
     = LoggerFactory.getLogger(ApplicationCommands.class);
 
   @Autowired

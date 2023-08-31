@@ -38,8 +38,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class ZammadHandler
 {
-  final static Logger LOGGER = LoggerFactory.
-    getLogger(ZammadHandler.class);
+  private final static Logger LOGGER 
+    = LoggerFactory.getLogger(ZammadHandler.class);
 
   @Autowired
   private Config config;

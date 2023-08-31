@@ -32,8 +32,8 @@ import org.slf4j.LoggerFactory;
  */
 public class JavaScriptEngine implements Closeable
 {
-  final static Logger LOGGER = LoggerFactory.
-    getLogger(JavaScriptEngine.class);
+  private final static Logger LOGGER 
+    = LoggerFactory.getLogger(JavaScriptEngine.class);
 
   private final static String SCRIPT_TYPE = "js";
 

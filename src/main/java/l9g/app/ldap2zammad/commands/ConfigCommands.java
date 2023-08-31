@@ -36,7 +36,8 @@ import org.springframework.shell.command.annotation.Command;
 @Command(group = "Config")
 public class ConfigCommands
 {
-  final static Logger LOGGER = LoggerFactory.getLogger(ConfigCommands.class);
+  private final static Logger LOGGER 
+    = LoggerFactory.getLogger(ConfigCommands.class);
 
   @Autowired
   private BuildProperties buildProperties;

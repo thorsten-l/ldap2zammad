@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -29,7 +28,6 @@ import lombok.ToString;
  */
 @ToString
 @Getter
-@Setter
 @JsonInclude(JsonInclude.Include.ALWAYS)
 public class ZammadAnonymousUser
 {
@@ -43,27 +41,27 @@ public class ZammadAnonymousUser
 
   private Integer organization_id;
 
-  private String login;
+  private final String login;
 
-  private String firstname;
+  private final String firstname;
 
-  private String lastname;
+  private final String lastname;
 
-  private String email;
+  private final String email;
 
   private Object image;
 
   private Object image_source;
 
-  private String web;
+  private final String web;
 
-  private String phone;
+  private final String phone;
 
-  private String fax;
+  private final String fax;
 
-  private String mobile;
+  private final String mobile;
 
-  private String department;
+  private final String department;
 
   private boolean vip;
 
@@ -71,7 +69,7 @@ public class ZammadAnonymousUser
 
   private boolean active;
 
-  private String note;
+  private final String note;
 
   private String source;
 

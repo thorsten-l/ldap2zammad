@@ -39,7 +39,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LogbackConfig
 {
-  final static Logger LOGGER
+  private final static Logger LOGGER
     = LoggerFactory.getLogger(LogbackConfig.class);
 
   public final static String SMTP_NOTIFICATION = "SMTP_NOTIFICATION";

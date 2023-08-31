@@ -44,10 +44,10 @@ import org.springframework.stereotype.Component;
  * @author Thorsten Ludewig (t.ludewig@gmail.com)
  */
 @Component
-@ToString
 public class LdapHandler
 {
-  final static Logger LOGGER = LoggerFactory.getLogger(LdapHandler.class);
+  private final static Logger LOGGER 
+    = LoggerFactory.getLogger(LdapHandler.class);
 
   @Autowired
   private Config config;

@@ -31,7 +31,6 @@ import org.springframework.stereotype.Component;
  * @author Thorsten Ludewig (t.ludewig@gmail.com)
  */
 @Getter
-@Setter
 @ToString
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Component
@@ -106,8 +105,10 @@ public class Config
   @Value("${mail.receipients}")
   private String[] mailReceipients;
 
+  @Setter
   private boolean dryRun;
 
+  @Setter
   private boolean debug;
 
   @Bean

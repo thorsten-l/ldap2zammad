@@ -31,7 +31,8 @@ import org.springframework.shell.command.annotation.Option;
 @Command(group = "Crypto")
 public class CryptoCommands
 {
-  final static Logger LOGGER = LoggerFactory.getLogger(CryptoCommands.class);
+  private final static Logger LOGGER 
+    = LoggerFactory.getLogger(CryptoCommands.class);
 
   @Autowired
   private CryptoHandler cryptoHandler;

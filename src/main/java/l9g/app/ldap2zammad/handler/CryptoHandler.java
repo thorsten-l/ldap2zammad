@@ -15,10 +15,8 @@
  */
 package l9g.app.ldap2zammad.handler;
 
-import jakarta.annotation.PostConstruct;
 import l9g.app.ldap2zammad.crypto.AES256;
 import l9g.app.ldap2zammad.crypto.AppSecretKey;
-import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +30,12 @@ import org.springframework.stereotype.Component;
  * @author Thorsten Ludewig (t.ludewig@gmail.com)
  */
 @Component
-@ToString
 public class CryptoHandler
 {
-  final static Logger LOGGER = LoggerFactory.getLogger(CryptoHandler.class);
+  private final static Logger LOGGER
+    = LoggerFactory.getLogger(CryptoHandler.class);
 
   public final static String AES256_PREFIX = "{AES256}";
-
-  private AES256 aes256;
 
   @Autowired
   public CryptoHandler(AppSecretKey appSecretKey)
@@ -76,4 +72,6 @@ public class CryptoHandler
 
     return text;
   }
+
+  private final AES256 aes256;
 }

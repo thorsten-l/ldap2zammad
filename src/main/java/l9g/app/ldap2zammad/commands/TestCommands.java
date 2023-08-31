@@ -37,7 +37,8 @@ import org.springframework.shell.command.annotation.Command;
 @Command(group = "Test")
 public class TestCommands
 {
-  final static Logger LOGGER = LoggerFactory.getLogger(TestCommands.class);
+  private final static Logger LOGGER 
+    = LoggerFactory.getLogger(TestCommands.class);
 
   @Autowired
   private LdapHandler ldapHandler;
