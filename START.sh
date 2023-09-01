@@ -20,4 +20,4 @@ export JAVA_HOME=`/usr/libexec/java_home -v 17`
 mvn -DskipTests=true clean package
 cp target/ldap2zammad.jar .
 ./ldap2zammad.jar
-rm -f ./ldap2zammad.jar
+# rm -f ./ldap2zammad.jar

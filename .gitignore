@@ -38,10 +38,11 @@ build/
 
 ####
 var/
-/ldap2zammad.jar
-/ldap2zammad.js
-/application.yaml
-/application.yml
-/secret.bin
+/ldap2zammad
+ldap2zammad.jar
+ldap2zammad.js
+application.yaml
+application.yml
+secret.bin
 rebel.xml
 .rebel.xml.bak

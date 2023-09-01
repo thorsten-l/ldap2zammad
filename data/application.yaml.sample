@@ -27,6 +27,8 @@ spring:
     command:
       version:
         enabled: true
+      history:
+        enabled: false
 #    noninteractive:
 #      primary-command: sync
 

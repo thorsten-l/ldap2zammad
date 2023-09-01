@@ -135,18 +135,18 @@ limitations under the License.
     </resources>
 
     <plugins>
-      <!--
-            <plugin>
-              <groupId>org.graalvm.buildtools</groupId>
-              <artifactId>native-maven-plugin</artifactId>
-              <configuration>
-                <buildArgs>
-                  <arg>-\-language:js</arg>
-                  <arg>-H:+AllowDeprecatedBuilderClassesOnImageClasspath</arg>
-                </buildArgs>
-              </configuration>
-            </plugin>
-      -->
+      
+      <plugin>
+        <groupId>org.graalvm.buildtools</groupId>
+        <artifactId>native-maven-plugin</artifactId>
+        <configuration>
+          <buildArgs>
+            <arg>--language:js</arg>
+            <arg>-H:+AllowDeprecatedBuilderClassesOnImageClasspath</arg>
+          </buildArgs>
+        </configuration>
+      </plugin>
+      
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
@@ -159,6 +159,9 @@ limitations under the License.
               <artifactId>lombok</artifactId>
             </exclude>
           </excludes>
+          <image>
+            <builder>dashaun/builder:tiny</builder>
+          </image>
         </configuration>
         <executions>
           <execution>

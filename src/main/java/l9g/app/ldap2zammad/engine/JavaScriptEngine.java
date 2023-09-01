@@ -18,6 +18,7 @@ package l9g.app.ldap2zammad.engine;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
+import l9g.app.ldap2zammad.Application;
 import lombok.Getter;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.HostAccess;
@@ -37,7 +38,8 @@ public class JavaScriptEngine implements Closeable
 
   private final static String SCRIPT_TYPE = "js";
 
-  private final static String SCRIPT_FILENAME = "ldap2zammad.js";
+  private final static String SCRIPT_FILENAME 
+    = Application.CONFIG_PATH + "ldap2zammad.js";
 
   public JavaScriptEngine() throws IOException
   {

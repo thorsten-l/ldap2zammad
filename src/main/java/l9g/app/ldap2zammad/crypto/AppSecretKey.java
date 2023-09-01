@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import l9g.app.ldap2zammad.Application;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,8 +39,8 @@ public class AppSecretKey
   private final static Logger LOGGER = LoggerFactory.getLogger(
     AppSecretKey.class.getName());
 
-  private final static String SECRET_FILE = "."
-    + File.separator + "secret.bin";
+  private final static String SECRET_FILE 
+    = Application.CONFIG_PATH + "secret.bin";
 
   public AppSecretKey()
   {

@@ -21,7 +21,7 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 echo JAVA_HOME=$JAVA_HOME
 # for native javascript support in graalvm 
-$JAVA_HOME/bin/gu install js
+$JAVA_HOME/bin/gu install js llvm-toolchain
 sleep 3
 
 ./mvnw -Pnative clean native:compile -DskipTests=true

@@ -15,6 +15,7 @@
  */
 package l9g.app.ldap2zammad;
 
+import java.io.File;
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;
 import org.springframework.boot.SpringApplication;
@@ -27,7 +28,7 @@ import org.springframework.shell.jline.PromptProvider;
 @CommandScan
 public class Application
 {
-  private final static String CONFIG_PATH = "./";
+  public final static String CONFIG_PATH = "data" + File.separator;
 
   static
   {
