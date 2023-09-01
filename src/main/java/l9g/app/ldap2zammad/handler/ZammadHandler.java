@@ -77,7 +77,7 @@ public class ZammadHandler
   public void readZammadUsers()
   {
     LOGGER.debug("readZammadUsers");
-    zammadUsersList = zammadClient.usersSearch("active", "true");
+    zammadUsersList = zammadClient.users();
     zammadUsersMap.clear();
     zammadUsersList.forEach(user -> zammadUsersMap.put(user.getLogin(), user));
   }

@@ -32,7 +32,6 @@ import java.util.HashMap;
 import javax.net.ssl.SSLSocketFactory;
 import l9g.app.ldap2zammad.Config;
 import lombok.Getter;
-import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +63,6 @@ public class LdapHandler
 
   private LDAPConnection getConnection() throws Exception
   {
-    LOGGER.trace(config.toString());
     LOGGER.debug("host = " + config.getLdapHostname());
     LOGGER.debug("port = " + config.getLdapPort());
     LOGGER.debug("ssl = " + config.isLdapSslEnabled());

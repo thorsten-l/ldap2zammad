@@ -119,7 +119,7 @@ public class ApplicationCommands
 
     if (fullSync)
     {
-      timestamp = new ASN1GeneralizedTime(0l);
+      timestamp = new ASN1GeneralizedTime(0l); // 01.01.1970, unix time 0
     }
     else
     {
