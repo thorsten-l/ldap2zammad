@@ -97,7 +97,7 @@ public class ZammadHandler
       }
       catch (Throwable t)
       {
-        LOGGER.error("*** CREATE FAILED *** " + t.getMessage());
+        delayedErrorExit("*** CREATE FAILED *** " + t.getMessage());
       }
     }
 
@@ -119,7 +119,7 @@ public class ZammadHandler
       }
       catch (Throwable t)
       {
-        LOGGER.error("*** UPDATE FAILED *** " + t.getMessage());
+        delayedErrorExit("*** UPDATE FAILED *** " + t.getMessage());
       }
     }
 
@@ -143,9 +143,24 @@ public class ZammadHandler
       }
       catch (Throwable t)
       {
-        LOGGER.error("*** DELETE (Anonymize) FAILED *** " + t.getMessage());
+        delayedErrorExit("*** DELETE (Anonymize) FAILED *** " + t.getMessage());
       }
     }
+  }
+  
+  private void delayedErrorExit( String message )
+  {
+    LOGGER.error(message);
+    
+    try
+    {
+      Thread.sleep(30000); // 30s delay to send error mail
+    }
+    catch (InterruptedException ex)
+    {
+      // do nothing
+    }
+    System.exit(-1);
   }
 
   private final ObjectMapper objectMapper = new ObjectMapper();

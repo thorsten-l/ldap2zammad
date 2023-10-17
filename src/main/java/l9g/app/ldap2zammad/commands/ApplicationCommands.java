@@ -140,11 +140,11 @@ public class ApplicationCommands
         String login = entry.getAttributeValue(config.getLdapUserId());
         ZammadUser zammadUser = zammadHandler.getZammadUsersMap().get(login);
         ZammadUser updateUser = new ZammadUser();
-        updateUser.setId(zammadUser.getId());
         updateUser.setLogin(login);
 
         if (zammadUser != null)
         {
+          updateUser.setId(zammadUser.getId());
           List<Integer> roleIds
             = zammadHandler.getZammadUsersMap().get(login).getRole_ids();
 
@@ -152,7 +152,6 @@ public class ApplicationCommands
           {
             // IGNORE Admin Users
             LOGGER.warn("IGNORE UPDATE ADMIN: {}, {} {} ({})",
-              entryCounter, noEntries,
               zammadUser.getLogin(),
               zammadUser.getFirstname(), zammadUser.getLastname(),
               zammadUser.getEmail());
