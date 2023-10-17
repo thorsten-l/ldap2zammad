@@ -51,6 +51,8 @@ public class ZammadUser
 
   private String email;
 
+  private String password;
+
   /*
   private Object image;
 
@@ -77,7 +79,7 @@ public class ZammadUser
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private Date last_login;
 
-  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  // @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private String source;
 
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
