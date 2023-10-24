@@ -16,6 +16,7 @@
 package l9g.app.ldap2zammad.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,9 +60,7 @@ public class ZammadHandler
     LOGGER.debug("getAdminGroupId");
     int adminGroupId = -1;
 
-    List<ZammadRole> roles = zammadClient.roles();
-
-    for (ZammadRole role : roles)
+    for (ZammadRole role : zammadRoleList)
     {
       LOGGER.debug(role.toString());
       if ("Admin".equals(role.getName()))
@@ -77,14 +76,31 @@ public class ZammadHandler
   public void readZammadRolesAndUsers()
   {
     LOGGER.debug("readZammadRoles");
-    zammadRoleList = zammadClient.roles();
+    
+    zammadRoleList = new ArrayList<>();
+    List<ZammadRole> rolesResult;
+    int page = 1;
+    while((rolesResult = zammadClient.roles(page,100)) != null 
+      && !rolesResult.isEmpty())
+    {
+      zammadRoleList.addAll(rolesResult);
+      page++;
+    }
     zammadRoleMap.clear();
     zammadRoleList.forEach(role -> zammadRoleMap.put(role.getId(), role));
-    
     LOGGER.info("{} zammad roles found", zammadRoleList.size());
     
     LOGGER.debug("readZammadUsers");
-    zammadUsersList = zammadClient.users();
+    zammadUsersList = new ArrayList<>();
+    List<ZammadUser> usersResult;
+    page = 1;
+    while((usersResult = zammadClient.users(page, 100)) != null
+      && !usersResult.isEmpty())
+    {
+      zammadUsersList.addAll(usersResult);
+      page++;
+    }
+    
     zammadUsersMap.clear();
     zammadUsersList.forEach(user -> zammadUsersMap.put(user.getLogin(), user));
 

@@ -41,11 +41,17 @@ public interface ZammadClient
   @GetExchange("/api/v1/organizations")
   public List<ZammadOrganization> organizations();
 
-  @GetExchange("/api/v1/roles")
-  public List<ZammadRole> roles();
+  @GetExchange("/api/v1/roles?page={page}&per_page={perPage}")
+  public List<ZammadRole> roles(
+    @PathVariable("page") int page,
+    @PathVariable("perPage") int perPage
+  );
 
-  @GetExchange("/api/v1/users")
-  public List<ZammadUser> users();
+  @GetExchange("/api/v1/users?page={page}&per_page={perPage}")
+  public List<ZammadUser> users(
+    @PathVariable("page") int page,
+    @PathVariable("perPage") int perPage
+  );
 
   /*
   Query Parameters
