@@ -140,10 +140,11 @@ public class ApplicationCommands
         LOGGER.debug("{}/{}", entryCounter, noEntries);
         String login = entry.getAttributeValue(config.getLdapUserId());
         ZammadUser zammadUser = zammadHandler.getZammadUsersMap().get(login);
+        ArrayList<String> roles = new ArrayList<>();
         ZammadUser updateUser = new ZammadUser();
         updateUser.setLogin(login);
+        updateUser.setRoles(roles);
 
-        ArrayList<String> roles = new ArrayList<>();
         if (config.getSyncDefaultRole() != null
           && config.getSyncDefaultRole().length() > 0)
         {
@@ -167,7 +168,6 @@ public class ApplicationCommands
           else
           {
             // UPDATE
-
             if (config.isSyncTagSyncerRolesEnabled()
               && config.isSyncRemoveTaggedRolesBeforUpdateUser())
             {
@@ -184,14 +184,14 @@ public class ApplicationCommands
               });
             }
 
-            js.getValue().executeVoid("update", updateUser, entry, roles);
+            js.getValue().executeVoid("update", updateUser, entry);
             zammadHandler.updateUser(updateUser);
           }
         }
         else
         {
           // CREATE
-          js.getValue().executeVoid("create", updateUser, entry, roles);
+          js.getValue().executeVoid("create", updateUser, entry);
           zammadHandler.createUser(updateUser);
         }
       }

@@ -20,7 +20,8 @@
   function ldap2zammad( mode, zammadUser, ldapEntry )
   {
     // mode : "test", "create, "update"
-    
+    var roles = zammadUser.getRoles();
+
     zammadUser.setFirstname(ldapEntry.getAttributeValue("givenname"));
     zammadUser.setLastname(ldapEntry.getAttributeValue("sn"));
     zammadUser.setEmail(ldapEntry.getAttributeValue("mail"));
@@ -35,11 +36,7 @@
       if ( ldapEntry.getAttributeValue("institute") === "CC" )
       {
         zammadUser.setDepartment( "CC" );
-        zammadUser.setRoles( [ "Agent", "Customer" ] );
-      }
-      else
-      {
-        zammadUser.setRoles( [ "Customer" ] ); // array of String
+        roles.push("Agent");
       }
     }
   }
