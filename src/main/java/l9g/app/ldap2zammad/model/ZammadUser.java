@@ -107,6 +107,9 @@ public class ZammadUser
 
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private Date updated_at;
+  
+  // additional attributes
+  private String customernumber;
 
   private List<String> roles;
 

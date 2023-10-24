@@ -105,6 +105,18 @@ public class Config
   @Value("${mail.receipients}")
   private String[] mailReceipients;
 
+  @Value("${sync.default-role}")
+  private String syncDefaultRole;
+  
+  @Value("${sync.tag-syncer-roles}")
+  private boolean syncTagSyncerRolesEnabled;
+
+  @Value("${sync.roles-tag}")
+  private String syncRolesTag;
+  
+  @Value("${sync.remove-tagged-roles-befor-update-user}")
+  private boolean syncRemoveTaggedRolesBeforUpdateUser;
+  
   @Setter
   private boolean dryRun;
 

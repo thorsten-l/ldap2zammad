@@ -74,12 +74,21 @@ public class ZammadHandler
     return adminGroupId;
   }
 
-  public void readZammadUsers()
+  public void readZammadRolesAndUsers()
   {
+    LOGGER.debug("readZammadRoles");
+    zammadRoleList = zammadClient.roles();
+    zammadRoleMap.clear();
+    zammadRoleList.forEach(role -> zammadRoleMap.put(role.getId(), role));
+    
+    LOGGER.info("{} zammad roles found", zammadRoleList.size());
+    
     LOGGER.debug("readZammadUsers");
     zammadUsersList = zammadClient.users();
     zammadUsersMap.clear();
     zammadUsersList.forEach(user -> zammadUsersMap.put(user.getLogin(), user));
+
+    LOGGER.info("{} zammad users found", zammadUsersList.size());
   }
 
   public ZammadUser createUser(ZammadUser user)
@@ -170,4 +179,10 @@ public class ZammadHandler
 
   @Getter
   private List<ZammadUser> zammadUsersList;
+  
+  @Getter
+  private final Map<Integer, ZammadRole> zammadRoleMap = new HashMap<>();
+
+  @Getter
+  private List<ZammadRole> zammadRoleList;
 }

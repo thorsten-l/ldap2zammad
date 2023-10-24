@@ -18,6 +18,7 @@ package l9g.app.ldap2zammad.commands;
 import ch.qos.logback.classic.Level;
 import com.unboundid.asn1.ASN1GeneralizedTime;
 import com.unboundid.ldap.sdk.Entry;
+import java.util.ArrayList;
 import java.util.List;
 import l9g.app.ldap2zammad.Config;
 import l9g.app.ldap2zammad.LogbackConfig;
@@ -85,7 +86,7 @@ public class ApplicationCommands
     LOGGER.debug("Los gehts!");
     TimestampUtil timestampUtil = new TimestampUtil("zammad-users");
 
-    zammadHandler.readZammadUsers();
+    zammadHandler.readZammadRolesAndUsers();
 
     Integer adminGroupId = zammadHandler.getAdminGroupId();
     LOGGER.debug("adminGroupId=" + adminGroupId);
@@ -142,6 +143,13 @@ public class ApplicationCommands
         ZammadUser updateUser = new ZammadUser();
         updateUser.setLogin(login);
 
+        ArrayList<String> roles = new ArrayList<>();
+        if (config.getSyncDefaultRole() != null
+          && config.getSyncDefaultRole().length() > 0)
+        {
+          roles.add(config.getSyncDefaultRole());
+        }
+
         if (zammadUser != null)
         {
           updateUser.setId(zammadUser.getId());
@@ -159,14 +167,31 @@ public class ApplicationCommands
           else
           {
             // UPDATE
-            js.getValue().executeVoid("update", updateUser, entry);
+
+            if (config.isSyncTagSyncerRolesEnabled()
+              && config.isSyncRemoveTaggedRolesBeforUpdateUser())
+            {
+              zammadUser.getRole_ids().forEach(roleId ->
+              {
+                String roleName
+                  = zammadHandler.getZammadRoleMap().get(roleId).getName();
+                if (!roleName.equalsIgnoreCase("Agent")
+                  && !roleName.equalsIgnoreCase(config.getSyncDefaultRole())
+                  && !roleName.startsWith(config.getSyncRolesTag()))
+                {
+                  roles.add(roleName);
+                }
+              });
+            }
+
+            js.getValue().executeVoid("update", updateUser, entry, roles);
             zammadHandler.updateUser(updateUser);
           }
         }
         else
         {
           // CREATE
-          js.getValue().executeVoid("create", updateUser, entry);
+          js.getValue().executeVoid("create", updateUser, entry, roles);
           zammadHandler.createUser(updateUser);
         }
       }

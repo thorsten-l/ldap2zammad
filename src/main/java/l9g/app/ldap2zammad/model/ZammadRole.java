@@ -40,8 +40,9 @@ public class ZammadRole
   private Integer id;
 
   private String name;
-  // private Preferences preferences;
 
+  // private Preferences preferences;
+  //
   private Boolean default_at_signup;
 
   private Boolean active;
