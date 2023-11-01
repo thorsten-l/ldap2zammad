@@ -17,10 +17,11 @@
  * fill new zammad user from ldap entry
  */
 (
-  function ldap2zammad( mode, zammadUser, ldapEntry )
+  function ldap2zammad( mode, zammadUser, ldapEntry, config )
   {
     // mode : "test", "create, "update"
     var roles = zammadUser.getRoles();
+    var syncRolesTag = config.getSyncRolesTag();
 
     zammadUser.setFirstname(ldapEntry.getAttributeValue("givenname"));
     zammadUser.setLastname(ldapEntry.getAttributeValue("sn"));

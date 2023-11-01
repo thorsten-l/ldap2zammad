@@ -184,14 +184,14 @@ public class ApplicationCommands
               });
             }
 
-            js.getValue().executeVoid("update", updateUser, entry);
+            js.getValue().executeVoid("update", updateUser, entry, config);
             zammadHandler.updateUser(updateUser);
           }
         }
         else
         {
           // CREATE
-          js.getValue().executeVoid("create", updateUser, entry);
+          js.getValue().executeVoid("create", updateUser, entry, config);
           zammadHandler.createUser(updateUser);
         }
       }

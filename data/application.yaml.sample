@@ -79,3 +79,9 @@ mail:
   subject: "%date{yyyy-MM-dd HH:mm:ss} - %m"
   from: "Ldap2Zammad <user@example.de>"
   receipients: admin@example.de
+
+sync:
+  default-role: Customer
+  tag-syncer-roles: true
+  roles-tag: "_"
+  remove-tagged-roles-befor-update-user: true
