@@ -15,6 +15,7 @@
  */
 package l9g.app.ldap2zammad;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -105,9 +106,12 @@ public class Config
   @Value("${mail.receipients}")
   private String[] mailReceipients;
 
-  @Value("${sync.default-role}")
-  private String syncDefaultRole;
-  
+  @Value("${sync.default-role-id}")
+  private Integer syncDefaultRoleId;
+
+  @Value("${sync.protected-role-ids}")
+  private List<Integer> syncProtectedRoleIds;
+
   @Value("${sync.tag-syncer-roles}")
   private boolean syncTagSyncerRolesEnabled;
 

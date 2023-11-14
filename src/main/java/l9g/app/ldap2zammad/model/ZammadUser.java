@@ -36,6 +36,26 @@ import lombok.ToString;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ZammadUser
 {
+
+  public boolean hasAnyRoles(List<Integer> roleIds)
+  {
+    boolean result = false;
+    
+    if (role_ids != null && roleIds != null)
+    {
+      for (Integer roleId : roleIds)
+      {
+        if (role_ids.contains(roleId))
+        {
+          result = true;
+          break;
+        }
+      }
+    }
+    
+    return result;
+  }
+
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private Integer id;
 

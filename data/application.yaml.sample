@@ -81,7 +81,9 @@ mail:
   receipients: admin@example.de
 
 sync:
-  default-role: Customer
+  # use rails console to indentify the role ids: Role.find_by(name: "THE_ROLE_NAME")
+  default-role-id: <ROLE_ID>
+  protected-role-ids: <ROLE_ID>[, <ROLE_ID> ...]
   tag-syncer-roles: true
   roles-tag: "_"
   remove-tagged-roles-befor-update-user: true

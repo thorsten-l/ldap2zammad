@@ -55,24 +55,6 @@ public class ZammadHandler
     return this;
   }
 
-  public int getAdminGroupId()
-  {
-    LOGGER.debug("getAdminGroupId");
-    int adminGroupId = -1;
-
-    for (ZammadRole role : zammadRoleList)
-    {
-      LOGGER.debug(role.toString());
-      if ("Admin".equals(role.getName()))
-      {
-        adminGroupId = role.getId();
-        break;
-      }
-    }
-
-    return adminGroupId;
-  }
-
   public void readZammadRolesAndUsers()
   {
     LOGGER.debug("readZammadRoles");
@@ -155,11 +137,11 @@ public class ZammadHandler
   {
     if (config.isDryRun())
     {
-      LOGGER.debug("DELETE DRY RUN: " + user);
+      LOGGER.debug("DELETE (Anonymize) DRY RUN: " + user);
     }
     else
     {
-      LOGGER.debug("DELETE: " + user);
+      LOGGER.debug("DELETE (Anonymize): " + user);
       try
       {
         // zammadClient.usersDelete(user.getId());

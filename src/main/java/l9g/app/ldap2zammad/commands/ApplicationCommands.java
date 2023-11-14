@@ -19,7 +19,6 @@ import ch.qos.logback.classic.Level;
 import com.unboundid.asn1.ASN1GeneralizedTime;
 import com.unboundid.ldap.sdk.Entry;
 import java.util.ArrayList;
-import java.util.List;
 import l9g.app.ldap2zammad.Config;
 import l9g.app.ldap2zammad.LogbackConfig;
 import l9g.app.ldap2zammad.TimestampUtil;
@@ -88,9 +87,6 @@ public class ApplicationCommands
 
     zammadHandler.readZammadRolesAndUsers();
 
-    Integer adminGroupId = zammadHandler.getAdminGroupId();
-    LOGGER.debug("adminGroupId=" + adminGroupId);
-
     ///////////////////////////////////////////////////////////////////////////
     // DELETE
     ldapHandler.readAllLdapEntryUIDs();
@@ -98,12 +94,11 @@ public class ApplicationCommands
     {
       if (!ldapHandler.getLdapEntryMap().containsKey(user.getLogin()))
       {
-        List<Integer> roleIds = user.getRole_ids();
-
-        if (user.getId() == 1 || roleIds.contains(adminGroupId))
+        if (user.getId() == 1
+          || user.hasAnyRoles(config.getSyncProtectedRoleIds()))
         {
-          // IGNORE Admin Users
-          LOGGER.warn("IGNORE DELETE ADMIN: {}, {} {} ({})",
+          // IGNORE protected Users
+          LOGGER.warn("IGNORE DELETE PROTECTED USER: {}, {} {} ({})",
             user.getLogin(), user.getFirstname(),
             user.getLastname(), user.getEmail());
         }
@@ -145,22 +140,22 @@ public class ApplicationCommands
         updateUser.setLogin(login);
         updateUser.setRoles(roles);
 
-        if (config.getSyncDefaultRole() != null
-          && config.getSyncDefaultRole().length() > 0)
+        if (config.getSyncDefaultRoleId() != null)
         {
-          roles.add(config.getSyncDefaultRole());
+          String defaultRoleName = 
+            zammadHandler.getZammadRoleMap().get(config.getSyncDefaultRoleId()).getName();
+          
+          roles.add(defaultRoleName);
         }
 
         if (zammadUser != null)
         {
           updateUser.setId(zammadUser.getId());
-          List<Integer> roleIds
-            = zammadHandler.getZammadUsersMap().get(login).getRole_ids();
 
-          if (roleIds.contains(adminGroupId))
+          if (zammadUser.hasAnyRoles(config.getSyncProtectedRoleIds()))
           {
-            // IGNORE Admin Users
-            LOGGER.warn("IGNORE UPDATE ADMIN: {}, {} {} ({})",
+            // IGNORE protected Users
+            LOGGER.warn("IGNORE UPDATE PROTECTED USER: {}, {} {} ({})",
               zammadUser.getLogin(),
               zammadUser.getFirstname(), zammadUser.getLastname(),
               zammadUser.getEmail());
@@ -175,8 +170,8 @@ public class ApplicationCommands
               {
                 String roleName
                   = zammadHandler.getZammadRoleMap().get(roleId).getName();
-                if (!roleName.equalsIgnoreCase("Agent")
-                  && !roleName.equalsIgnoreCase(config.getSyncDefaultRole())
+                
+                if (!roleId.equals(config.getSyncDefaultRoleId())
                   && !roleName.startsWith(config.getSyncRolesTag()))
                 {
                   roles.add(roleName);
