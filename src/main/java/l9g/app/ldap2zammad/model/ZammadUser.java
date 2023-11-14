@@ -111,6 +111,12 @@ public class ZammadUser
   // additional attributes
   private String customernumber;
 
+  private String location;
+
+  private String building;
+  
+  private String room;
+
   private List<String> roles;
 
   private List<Integer> role_ids;

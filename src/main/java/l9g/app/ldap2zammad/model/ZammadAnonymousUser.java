@@ -35,8 +35,6 @@ public class ZammadAnonymousUser
   {
     this.login = this.firstname = this.lastname = login;
     this.email = login + "@anonymous.net";
-    this.department = this.fax = this.mobile 
-      = this.note = this.phone = this.web = "";
   }
 
   private Integer organization_id;
@@ -53,15 +51,15 @@ public class ZammadAnonymousUser
 
   private Object image_source;
 
-  private final String web;
+  private String web;
 
-  private final String phone;
+  private String phone;
 
-  private final String fax;
+  private String fax;
 
-  private final String mobile;
+  private String mobile;
 
-  private final String department;
+  private String department;
 
   private boolean vip;
 
@@ -69,7 +67,7 @@ public class ZammadAnonymousUser
 
   private boolean active;
 
-  private final String note;
+  private String note;
 
   private String source;
 
@@ -82,6 +80,15 @@ public class ZammadAnonymousUser
   private Integer out_of_office_replacement_id;
  
   private ZammadPreferences preferences;
+
+  // additional attributes
+  private String customernumber;
+
+  private String location;
+
+  private String building;
+
+  private String room;
 
   private List<String> roles;
   
