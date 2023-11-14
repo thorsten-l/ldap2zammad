@@ -42,7 +42,8 @@ var/
 ldap2zammad.jar
 ldap2zammad.js
 application.yaml
-application.yml
+application.devel.yaml
+application.release.yaml
 secret.bin
 rebel.xml
 .rebel.xml.bak
