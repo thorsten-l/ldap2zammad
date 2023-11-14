@@ -9,7 +9,7 @@ This `function` will be executed for every entry in the LDAP resultset.
  
 ```javascript
 (
-  function ldap2zammad( mode, zammadUser, ldapEntry )
+  function ldap2zammad( mode, zammadUser, ldapEntry, config )
   {
     // mode : "test", "create, "update"
     
