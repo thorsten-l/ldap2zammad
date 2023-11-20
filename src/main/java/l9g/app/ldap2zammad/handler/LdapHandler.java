@@ -176,12 +176,12 @@ public class LdapHandler
 
       if (totalSourceEntries == 0)
       {
-        LOGGER.info("No entries to synchronize found");
+        LOGGER.info("no ldap entries found");
       }
       else
       {
         LOGGER.
-          info("build list from source DNs, {} entries", totalSourceEntries);
+          info("loaded {} ldap entries", totalSourceEntries);
       }
     }
   }

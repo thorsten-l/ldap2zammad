@@ -70,7 +70,7 @@ public class ZammadHandler
     }
     zammadRoleMap.clear();
     zammadRoleList.forEach(role -> zammadRoleMap.put(role.getId(), role));
-    LOGGER.info("{} zammad roles found", zammadRoleList.size());
+    LOGGER.info("loaded {} zammad roles", zammadRoleList.size());
     
     LOGGER.debug("readZammadUsers");
     zammadUsersList = new ArrayList<>();
@@ -86,18 +86,18 @@ public class ZammadHandler
     zammadUsersMap.clear();
     zammadUsersList.forEach(user -> zammadUsersMap.put(user.getLogin(), user));
 
-    LOGGER.info("{} zammad users found", zammadUsersList.size());
+    LOGGER.info("loaded {} zammad users", zammadUsersList.size());
   }
 
   public ZammadUser createUser(ZammadUser user)
   {
     if (config.isDryRun())
     {
-      LOGGER.debug("CREATE DRY RUN: " + user);
+      LOGGER.info("CREATE DRY RUN: " + user);
     }
     else
     {
-      LOGGER.debug("CREATE: " + user);
+      LOGGER.info("CREATE: " + user);
       try
       {
         user = zammadClient.usersCreate(user);
@@ -115,13 +115,13 @@ public class ZammadHandler
   {
     if (config.isDryRun())
     {
-      LOGGER.debug("UPDATE DRY RUN: " + user);
+      LOGGER.info("UPDATE DRY RUN: " + user);
     }
     else
     {
       try
       {
-        LOGGER.debug("UPDATE: " + objectMapper.writeValueAsString(user));
+        LOGGER.info("UPDATE: " + objectMapper.writeValueAsString(user));
         user = zammadClient.usersUpdate(user.getId(), user);
       }
       catch (Throwable t)
@@ -137,11 +137,11 @@ public class ZammadHandler
   {
     if (config.isDryRun())
     {
-      LOGGER.debug("DELETE (Anonymize) DRY RUN: " + user);
+      LOGGER.info("DELETE (Anonymize) DRY RUN: " + user);
     }
     else
     {
-      LOGGER.debug("DELETE (Anonymize): " + user);
+      LOGGER.info("DELETE (Anonymize): " + user);
       try
       {
         // zammadClient.usersDelete(user.getId());

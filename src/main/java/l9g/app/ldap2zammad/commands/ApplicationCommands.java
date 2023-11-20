@@ -83,13 +83,21 @@ public class ApplicationCommands
     config.setDryRun(dryRun);
 
     LOGGER.debug("Los gehts!");
+    
+    int updateCounter = 0;
+    int createCounter = 0;
+    int deleteCounter = 0;
+    int ignoreCounter = 0;
+    
     TimestampUtil timestampUtil = new TimestampUtil("zammad-users");
 
     zammadHandler.readZammadRolesAndUsers();
 
     ///////////////////////////////////////////////////////////////////////////
     // DELETE
+    LOGGER.info( "looking for users to delete");
     ldapHandler.readAllLdapEntryUIDs();
+    
     for (ZammadUser user : zammadHandler.getZammadUsersList())
     {
       if (!ldapHandler.getLdapEntryMap().containsKey(user.getLogin()))
@@ -101,11 +109,13 @@ public class ApplicationCommands
           LOGGER.warn("IGNORE DELETE PROTECTED USER: {}, {} {} ({})",
             user.getLogin(), user.getFirstname(),
             user.getLastname(), user.getEmail());
+          ignoreCounter++;
         }
         else
         {
           // DELETE
           zammadHandler.deleteUser(user);
+          deleteCounter++;
         }
       }
     }
@@ -122,6 +132,7 @@ public class ApplicationCommands
       timestamp = timestampUtil.getLastSyncTimestamp();
     }
 
+    LOGGER.info( "looking for users to update or create since last sync");
     ldapHandler.readLdapEntries(timestamp, true);
 
     try (JavaScriptEngine js = new JavaScriptEngine())
@@ -159,6 +170,7 @@ public class ApplicationCommands
               zammadUser.getLogin(),
               zammadUser.getFirstname(), zammadUser.getLastname(),
               zammadUser.getEmail());
+            ignoreCounter++;
           }
           else
           {
@@ -181,6 +193,7 @@ public class ApplicationCommands
 
             js.getValue().executeVoid("update", updateUser, entry, config);
             zammadHandler.updateUser(updateUser);
+            updateCounter++;
           }
         }
         else
@@ -188,9 +201,18 @@ public class ApplicationCommands
           // CREATE
           js.getValue().executeVoid("create", updateUser, entry, config);
           zammadHandler.createUser(updateUser);
+          createCounter++;
         }
       }
     }
+    
+    LOGGER.info("\nSummary:\n"
+      + "\n  updated {} user(s)"
+      + "\n  created {} user(s)"
+      + "\n  deleted {} user(s)"
+      + "\n  ignored {} user(s)",
+      updateCounter, createCounter, deleteCounter, ignoreCounter);
+    
     ///////////////////////////////////////////////////////////////////////////
     if (!dryRun)
     {
