@@ -132,7 +132,7 @@ public class ApplicationCommands
       timestamp = timestampUtil.getLastSyncTimestamp();
     }
 
-    LOGGER.info( "looking for users to update or create since last sync");
+    LOGGER.info( "looking for users to update or create since last sync ({})", timestamp.getStringRepresentation());
     ldapHandler.readLdapEntries(timestamp, true);
 
     try (JavaScriptEngine js = new JavaScriptEngine())

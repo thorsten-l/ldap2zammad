@@ -100,7 +100,7 @@ public class TimestampUtil
       }
     }
 
-    LOGGER.info("last sync {} timestamp = {}", prefix, timestamp);
+    LOGGER.debug("last sync {} timestamp = {}", prefix, timestamp);
     return timestamp;
   }
 
