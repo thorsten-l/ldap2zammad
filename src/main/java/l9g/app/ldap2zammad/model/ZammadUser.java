@@ -56,6 +56,11 @@ public class ZammadUser
     return result;
   }
 
+  public String toStringShort()
+  {
+    return getLogin() + "," + getFirstname() + " " + getLastname() + " (" + getEmail() + ")";
+  }
+
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
   private Integer id;
 
@@ -93,6 +98,8 @@ public class ZammadUser
   private Boolean verified;
 
   private Boolean active;
+
+  private Boolean prepare_for_deletion;
 
   private String note;
 

@@ -35,6 +35,11 @@ public class ZammadAnonymousUser
   {
     this.login = this.firstname = this.lastname = login;
     this.email = login + "@anonymous.net";
+    this.prepare_for_deletion = true;
+
+    /* All other fields defined in this class but not initialized 
+       in constructor will be set in json to null or false.
+       Cause we use JsonInclude.Include.ALWAYS  */
   }
 
   private Integer organization_id;
@@ -66,6 +71,8 @@ public class ZammadAnonymousUser
   private boolean verified;
 
   private boolean active;
+
+  private final boolean prepare_for_deletion;
 
   private String note;
 
