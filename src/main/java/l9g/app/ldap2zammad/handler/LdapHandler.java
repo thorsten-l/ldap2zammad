@@ -63,12 +63,11 @@ public class LdapHandler
 
   private LDAPConnection getConnection() throws Exception
   {
-    LOGGER.debug("host = " + config.getLdapHostname());
-    LOGGER.debug("port = " + config.getLdapPort());
-    LOGGER.debug("ssl = " + config.isLdapSslEnabled());
-    LOGGER.debug("bind dn = " + config.getLdapBindDn());
-    LOGGER.trace("bind pw = " + 
-      cryptoHandler.decrypt(config.getLdapBindPassword()));
+    LOGGER.debug("host={}", config.getLdapHostname());
+    LOGGER.debug("port={}", config.getLdapPort());
+    LOGGER.debug("ssl={}", config.isLdapSslEnabled());
+    LOGGER.debug("bind dn={}", config.getLdapBindDn());
+    LOGGER.trace("bind pw={}", cryptoHandler.decrypt(config.getLdapBindPassword()));
 
     LDAPConnection ldapConnection;
 
@@ -193,9 +192,9 @@ public class LdapHandler
 
   public void test() throws Throwable
   {
-    LOGGER.debug("basedn=" + config.getLdapBaseDn());
-    LOGGER.debug("scope=" + config.getLdapScope());
-    LOGGER.debug("user id=" + config.getLdapUserId());
+    LOGGER.debug("basedn={}", config.getLdapBaseDn());
+    LOGGER.debug("scope={}", config.getLdapScope());
+    LOGGER.debug("user id={}", config.getLdapUserId());
 
     readAllLdapEntryUIDs();
     printLdapEntriesMap();

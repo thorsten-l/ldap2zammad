@@ -93,11 +93,11 @@ public class ZammadHandler
   {
     if (config.isDryRun())
     {
-      LOGGER.info("CREATE DRY RUN: " + user);
+      LOGGER.info("CREATE DRY RUN: {}", user);
     }
     else
     {
-      LOGGER.info("CREATE: " + user);
+      LOGGER.info("CREATE: {}", user);
       try
       {
         user = zammadClient.usersCreate(user);
@@ -115,13 +115,13 @@ public class ZammadHandler
   {
     if (config.isDryRun())
     {
-      LOGGER.info("UPDATE DRY RUN: " + user);
+      LOGGER.info("UPDATE DRY RUN: {}", user);
     }
     else
     {
       try
       {
-        LOGGER.info("UPDATE: " + objectMapper.writeValueAsString(user));
+        LOGGER.info("UPDATE: {}", objectMapper.writeValueAsString(user));
         user = zammadClient.usersUpdate(user.getId(), user);
       }
       catch (Throwable t)
@@ -135,22 +135,25 @@ public class ZammadHandler
 
   public void deleteUser(ZammadUser user)
   {
+    ZammadAnonymousUser anonymizedUser = new ZammadAnonymousUser(user.getLogin());
+    
     if (config.isDryRun())
     {
-      LOGGER.info("DELETE (Anonymize) DRY RUN: " + user);
+      LOGGER.info("DELETE (anonymize) DRY RUN: {}", anonymizedUser);
     }
     else
     {
-      LOGGER.info("DELETE (Anonymize): " + user);
+      
+      
+      LOGGER.info("DELETE (anonymize): {}", anonymizedUser);
       try
       {
         // zammadClient.usersDelete(user.getId());
-        zammadClient.usersAnonymize(user.getId(),
-          new ZammadAnonymousUser(user.getLogin()));
+        zammadClient.usersAnonymize(user.getId(), anonymizedUser);
       }
       catch (Throwable t)
       {
-        delayedErrorExit("*** DELETE (Anonymize) FAILED *** " + t.getMessage());
+        delayedErrorExit("*** DELETE (anonymize) FAILED *** " + t.getMessage());
       }
     }
   }

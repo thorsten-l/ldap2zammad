@@ -77,8 +77,13 @@ public class ApplicationCommands
       logbackConfig.getL9gLogger().setLevel(Level.TRACE);
     }
 
-    LOGGER.info("dryRun = '{}', debug = '{}', trace = '{}'",
-      dryRun, debug, trace);
+    LOGGER.info("dryRun = '{}', debug = '{}', trace = '{}'", dryRun, debug, trace);
+    LOGGER.info("zammad server: '{}'", config.getZammadBaseUrl());
+    LOGGER.info("ldap server: 'ldap{}://{}:{}'",
+      (config.isLdapSslEnabled())?"s":"",
+      config.getLdapHostname(),
+      config.getLdapPort());
+    
     config.setDebug(debug);
     config.setDryRun(dryRun);
 
@@ -106,9 +111,7 @@ public class ApplicationCommands
           || user.hasAnyRoles(config.getSyncProtectedRoleIds()))
         {
           // IGNORE protected Users
-          LOGGER.warn("IGNORE DELETE PROTECTED USER: {}, {} {} ({})",
-            user.getLogin(), user.getFirstname(),
-            user.getLastname(), user.getEmail());
+          LOGGER.warn("IGNORE DELETE PROTECTED USER: {}", user.toStringShort());
           ignoreCounter++;
         }
         else
@@ -166,10 +169,7 @@ public class ApplicationCommands
           if (zammadUser.hasAnyRoles(config.getSyncProtectedRoleIds()))
           {
             // IGNORE protected Users
-            LOGGER.warn("IGNORE UPDATE PROTECTED USER: {}, {} {} ({})",
-              zammadUser.getLogin(),
-              zammadUser.getFirstname(), zammadUser.getLastname(),
-              zammadUser.getEmail());
+            LOGGER.warn("IGNORE UPDATE PROTECTED USER: {})", zammadUser.toStringShort());
             ignoreCounter++;
           }
           else
