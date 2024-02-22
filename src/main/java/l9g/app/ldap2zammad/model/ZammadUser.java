@@ -58,7 +58,7 @@ public class ZammadUser
 
   public String toStringShort()
   {
-    return getLogin() + "," + getFirstname() + " " + getLastname() + " (" + getEmail() + ")";
+    return "(login=" + getLogin() + ", email=" + getEmail() + ")";
   }
 
   @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

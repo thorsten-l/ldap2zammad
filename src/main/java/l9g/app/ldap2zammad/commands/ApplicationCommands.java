@@ -77,7 +77,7 @@ public class ApplicationCommands
       logbackConfig.getL9gLogger().setLevel(Level.TRACE);
     }
 
-    LOGGER.info("dryRun = '{}', debug = '{}', trace = '{}'", dryRun, debug, trace);
+    LOGGER.info("dry-run = '{}', full-sync = '{}', debug = '{}', trace = '{}'", dryRun, fullSync, debug, trace);
     LOGGER.info("zammad server: '{}'", config.getZammadBaseUrl());
     LOGGER.info("ldap server: 'ldap{}://{}:{}'",
       (config.isLdapSslEnabled())?"s":"",
@@ -87,8 +87,6 @@ public class ApplicationCommands
     config.setDebug(debug);
     config.setDryRun(dryRun);
 
-    LOGGER.debug("Los gehts!");
-    
     int updateCounter = 0;
     int createCounter = 0;
     int deleteCounter = 0;
@@ -206,7 +204,7 @@ public class ApplicationCommands
       }
     }
     
-    LOGGER.info("\nSummary:\n"
+    LOGGER.info("sync done\nSummary:"
       + "\n  updated {} user(s)"
       + "\n  created {} user(s)"
       + "\n  deleted {} user(s)"
