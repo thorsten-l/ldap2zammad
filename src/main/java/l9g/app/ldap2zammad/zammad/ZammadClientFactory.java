@@ -72,8 +72,8 @@ public class ZammadClientFactory
       .build();
 
     HttpServiceProxyFactory factory
-      = HttpServiceProxyFactory.builder(
-        WebClientAdapter.forClient(webClient)).build();
+      = HttpServiceProxyFactory.builderFor(
+        WebClientAdapter.create(webClient)).build();
 
     return factory.createClient(ZammadClient.class);
   }
